@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3>ordersummary</h3>
+{% if order|length > 0 %}
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Title</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">price</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in order %}
+        <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ product.item.title}}</td>
+            <td>
+                <i class="fas fa-minus-square update-btn" style="cursor: pointer;" data-action="decrease"
+                    data-product="{{ product.item.pk }}"></i>
+                <b id="cart-quantity-{{product.item.slug}}">{{ product.quantity }}</b>
+                <i class="fas fa-plus-square update-btn" style="cursor: pointer;" data-action="add"
+                    data-product="{{ product.item.pk }}"></i>
+            </td>
+            <td>{{ product.item.price}}</td>
+
+            <td></td>
+        </tr>
+        {% endfor %}
+        <td class="colmd-4">
+            <b col-md-4>Grand Total </b>
+            <b style="float: right;" id="grand-total">{{ Order.get_grand_order_total }}</b>
+        </td>
+
+    </tbody>
+</table>
+<a href="{% url 'home' %}" class="btn btn-outline-info">Continue Shopping</a>
+<a href="{% url 'checkout' %}" class="btn btn-outline-info">Check Out</a>
+{% else %}
+
+<h4>You have got not any item in your ordered list</h4>
+<a href="{% url 'home' %}" class="btn btn-outline-info">Continue Shopping</a>
+
+{% endif %}
+
+{% endblock content %}
+
